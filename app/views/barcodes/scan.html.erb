@@ -129,8 +129,6 @@
 
         <%= select_tag :payment_method, options_for_select([['Pix', 'pix'], ['Dinheiro', 'dinheiro'], ['Débito', 'debito'], ['Crédito', 'credito']]), prompt: 'Selecione um método de pagamento' %>
         </div>
-
-        <%= submit_tag 'Finish', id: 'finish_sale_button' %>
       <% end %>
     <% end %>
 
