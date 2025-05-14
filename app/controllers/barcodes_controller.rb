@@ -8,19 +8,27 @@ class BarcodesController < ApplicationController
 
   # Busca o produto pelo código de barras e o adiciona ao carrinho de compras
   def search
-    barcode = params[:barcode]
-    stock = Stock.find_by(barcode: barcode)
+  barcode = params[:barcode]
+  stocks = Stock.where(barcode: barcode)
 
-    if stock
-      session[:stocks] ||= []
-      session[:stocks] << stock
-      flash[:notice] = "Produto adicionado ao carrinho!"
-    else
-      flash[:alert] = "Produto não encontrado!"
-    end
+  if stocks.any?
+    session[:stocks] ||= []
 
-    redirect_to barcodes_scan_path
+    session[:stocks] << {
+      "barcode" => barcode,
+      "name" => stocks.first.name,
+      "price" => stocks.first.price,
+      "types" => stocks.map { |s| { "id" => s.id, "name" => s.name } }
+    }
+
+    flash[:notice] = "Produto adicionado ao carrinho!"
+  else
+    flash[:alert] = "Produto não encontrado!"
   end
+
+  redirect_to barcodes_scan_path
+end
+
 
   # Finaliza a venda, criando um registro de venda e atualizando o estoque
   def finish_sale
