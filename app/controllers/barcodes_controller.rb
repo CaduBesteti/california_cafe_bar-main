@@ -43,8 +43,8 @@ end
     # Realiza a transação para garantir que todas as operações sejam atômicas
     Sale.transaction do
       session[:stocks].each_with_index do |stock_data, index|
-        stock_info = stock_data.is_a?(Array) ? stock_data.last : stock_data
-        stock = Stock.find(stock_info['id'])
+       salgado_type_id = params[:stocks][index.to_s][:salgado_type]
+stock = Stock.find_by(id: salgado_type_id)
 
         # Atualiza o estoque de acordo com o item selecionado
         if stock.barcode == '1111111111111' && params[:stocks] && params[:stocks][index.to_s]
@@ -81,6 +81,5 @@ end
   def cancel_sale
     session[:stocks] = []
     redirect_to barcodes_scan_path, notice: 'Venda cancelada com sucesso!'
-    puts "william pedro gay"
   end
 end
