@@ -81,5 +81,6 @@ stock = Stock.find_by(id: salgado_type_id)
   def cancel_sale
     session[:stocks] = []
     redirect_to barcodes_scan_path, notice: 'Venda cancelada com sucesso!'
+    puts "essa merda não funciona"
   end
 end
